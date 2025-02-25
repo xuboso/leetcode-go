@@ -87,3 +87,9 @@ Redis7.0 的默认缓存淘汰策略是`noeviction`, 这意味着当 Redis 的�
 3. Write Through: 应用先更新数据库，再更新缓存。缺点：缓存更新失败会导致数据一致性问题。可加入重试机制。
 4. Write Behind: 异步写回。应用先更新缓存，异步将更新操作写入消息队列，消费者从消息队列取更新操作写入数据库
 5. Write Around: 写绕过。写操作直接更新数据库。读操作先从缓存取，如果没有查询数据库并更新缓存。缺点：缓存更新滞后，导致数据一致性问题。
+
+## 参考
+
+[Redis 核心技术与实战](https://freegeektime.com/posts/100056701/)
+
+[Redis 多线程网络模型全面揭秘](https://andypan.me/zh-hans/posts/2021/02/14/multiple-threaded-network-model-in-redis/)
