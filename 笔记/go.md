@@ -598,3 +598,31 @@ Got another instance of size: 1024
 ### 总结
 
 `sync.Pool`是一个简单且有效的工具，用于在多线程环境中使用并复用可缓存的对象。当适当使用时，它可以显著减少内存分配，提高性能。但因其设计为缓存而非长存储，使用时需要考虑对象容易被回收的特性
+
+使用 sync.Pool 的示例
+
+```go
+var jsonEncoderPool = sync.Pool{
+    New: func() interface{} {
+        // 创建带缓存的Encoder，避免重复初始化缓冲池
+        buf := bytes.NewBuffer(make([]byte, 0, 4096))
+        return json.NewEncoder(buf)
+    },
+}
+
+func HandleJSONRequest(data interface{}) ([]byte, error) {
+    // 从池中获取 Encoder 和 Buffer
+    enc := jsonEncoderPool.Get().(*json.Encoder)
+    buf := enc.Buffered().(*bytes.Buffer)
+    defer func() {
+        buf.Reset()         // 重要：清空缓冲区内容
+        jsonEncoderPool.Put(enc) // 放回池中
+    }()
+
+    // 序列化数据
+    if err := enc.Encode(data); err != nil {
+        return nil, err
+    }
+    return buf.Bytes(), nil
+}
+```
