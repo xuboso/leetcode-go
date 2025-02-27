@@ -68,7 +68,6 @@ func main() {
 	fmt.Println()
 
 	winComputer := &Windows{}
-
 	winComputer.SetPrinter(hpPrinter)
 	winComputer.Print()
 	fmt.Println()
