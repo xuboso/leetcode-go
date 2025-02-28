@@ -48,7 +48,7 @@ func removeFromSlice(observerList []Observer, observerToRemove Observer) []Obser
 	observerListLength := len(observerList)
 	for i, observer := range observerList {
 		if observerToRemove.getID() == observer.getID() {
-			observerList[observerListLength-1], observerList[i] = observer[i], observerList[observerListLength-1]
+			observerList[observerListLength-1], observerList[i] = observerList[i], observerList[observerListLength-1]
 			return observerList[:observerListLength-1]
 		}
 	}
